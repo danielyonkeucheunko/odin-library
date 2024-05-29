@@ -15,9 +15,50 @@
     </head>
     <body>
         <script src="script.js" defer></script>
+        <dialog>
+            <button class="close-button">x</button>
+            <form action="get" method="#" id="form">
+                <div>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" />
+                </div>
+
+                <div>
+                    <label for="author">Author:</label>
+                    <input type="text" id="author" />
+                </div>
+
+                <div>
+                    <label for="pages">Number of Pages:</label>
+                    <input type="number" min="0" id="pages" />
+                </div>
+
+                <div>
+                    <label for="read">Have you completed it?</label>
+                    <select name="read-status" id="read">
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submit">Add</button>
+            </form>
+        </dialog>
         <div class="container">
-            <div class="header">The Library</div>
+            <div class="header">
+                The Library
+                <button type="button" class="create-book">NEW BOOK</button>
+            </div>
             <div id="main-content">
+                <div class="card" index="0">
+                    <button class="icon-button">
+                        <img class="icon" src="icons/close.svg" alt="" />
+                    </button>
+                    <div class="card-title">Maze Runner</div>
+                    <div class="card-author">Author: James Dashner</div>
+                    <div class="card-pages">Number Of Pages: 890</div>
+                    <div class="card-read">Reading Status: Completed</div>
+                    <button class="toggle">Toggle Status</button>
                 </div>
             </div>
         </div>

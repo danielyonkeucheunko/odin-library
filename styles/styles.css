@@ -17,8 +17,9 @@
     font-size: 60px;
     font-weight: 700;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    padding: 20px;
 }
 
 #main-content {
@@ -34,11 +35,11 @@
 
 .card {
     background-color: var(--card-color);
-    width: 250px;
-    height: 315px;
+    width: 300px;
+    height: 350px;
     border-radius: 20px;
     border: 2px solid white;
-    padding: 5px;
+    padding: 30px 20px;
     color: white;
     display: flex;
     flex-direction: column;
@@ -46,6 +47,7 @@
     font-size: 20px;
     gap: 25px;
     text-align: center;
+    position: relative;
 }
 
 .card-title {
@@ -54,10 +56,34 @@
     padding-bottom: 20px;
 }
 
-.complete {
-    color: green;
+.create-book {
+    border: 3px solid white;
+    background-color: black;
+    color: white;
+    font-size: 40px;
 }
 
-.incomplete {
-    color: red;
+.create-book:hover {
+    background-color: #1c1917;
+}
+.create-book:active {
+    background-color: #292524;
+}
+
+.icon {
+    filter: brightness(0) saturate(100%) invert(92%) sepia(87%) saturate(0%)
+        hue-rotate(173deg) brightness(102%) contrast(102%);
+    width: max-content;
+}
+
+.icon-button {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    align-self: flex-end;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    top: 5px;
+    right: 5px;
 }

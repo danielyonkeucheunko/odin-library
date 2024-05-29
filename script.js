@@ -5,31 +5,45 @@ function Book(title, author, numOfPages, hasRead) {
     this.author = author;
     this.numOfPages = numOfPages;
     this.hasRead = hasRead;
-
-    this.info = function () {
-        return (
-            `${this.title} by ${this.author}, ${this.numOfPages} pages, ` +
-            (hasRead ? "already read" : "not read yet")
-        );
-    };
 }
 
-function addBook() {
-    let title = prompt("What's the title of the Book?");
-    let author = prompt("Who is the book's author?");
-    let numOfPages = parseInt(prompt("How long is the book? (in pages)"));
-    let hasRead = prompt("Have you read it yet? (true/false)") === "true";
+Book.prototype.toggleStatus = function () {
+    this.hasRead = !this.hasRead;
+};
 
-    libraryArr.push(new Book(title, author, numOfPages, hasRead));
+function addBook(title, author, numOfPages, hasRead) {
+    libraryArr.push(new Book(title, author, parseInt(numOfPages), hasRead));
+    displayBooks();
 }
 
 function displayBooks() {
     let contentPane = document.getElementById("main-content");
     contentPane.innerHTML = "";
+    let index = 0;
 
     libraryArr.forEach((book) => {
         let bookElement = document.createElement("div");
         bookElement.setAttribute("class", "card");
+        bookElement.setAttribute("index", `${index}`);
+
+        let exitButton = document.createElement("button");
+        exitButton.setAttribute("class", "icon-button");
+        index++;
+
+        exitButton.addEventListener("click", (event) => {
+            libraryArr.splice(
+                event.target.parentElement.parentElement.getAttribute("index"),
+                1
+            );
+            displayBooks();
+        });
+
+        let icon = document.createElement("img");
+        icon.setAttribute("class", "icon");
+        icon.setAttribute("src", "icons/close.svg");
+        exitButton.appendChild(icon);
+
+        bookElement.appendChild(exitButton);
 
         let bookTitle = document.createElement("div");
         bookTitle.setAttribute("class", "card-title");
@@ -47,22 +61,58 @@ function displayBooks() {
         bookElement.appendChild(bookPages);
 
         let bookStatus = document.createElement("div");
-        bookStatus.setAttribute("class", "card-pages");
+        bookStatus.setAttribute("class", "card-read");
         bookStatus.innerHTML = `Reading Status: ${
             book.hasRead ? "Completed" : "Not Read"
         }`;
         bookElement.appendChild(bookStatus);
 
+        let toggleButton = document.createElement("button");
+        toggleButton.setAttribute("class", "toggle");
+        toggleButton.textContent = "Toggle Status";
+
+        toggleButton.addEventListener("click", (event) => {
+            libraryArr[
+                event.target.parentElement.getAttribute("index")
+            ].toggleStatus();
+            displayBooks();
+        });
+
+        bookElement.appendChild(toggleButton);
+
         contentPane.appendChild(bookElement);
     });
 }
 
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 890, true));
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 891, false));
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 892, false));
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 893, false));
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 894, false));
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 895, true));
-libraryArr.push(new Book("The Maze Runner", "James Dashner", 896, false));
+const dialogButton = document.querySelector(".create-book");
+const closeButton = document.querySelector(".close-button");
 
-displayBooks();
+dialogButton.addEventListener("click", () => {
+    document.querySelector("dialog").showModal();
+});
+
+closeButton.addEventListener("click", () => {
+    document.querySelector("dialog").close();
+});
+
+const form = document.getElementById("form");
+const submitButton = document.getElementById("submit");
+
+submitButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    addBook(
+        form.elements["title"].value,
+        form.elements["author"].value,
+        form.elements["pages"].value,
+        form.elements["read"].value
+    );
+
+    form.elements["title"].value = "";
+    form.elements["author"].value = "";
+    form.elements["pages"].value = "";
+    document.querySelector("dialog").close();
+});
+
+addBook("The Maze Runner", "James Dashner", "372", true);
+addBook("Lord of the Flies", "William Golding", "224", true);
+addBook("The Great Gatsby", "F. Scott Fitzgerald", "208", true);
